@@ -25,7 +25,7 @@
           "store_fakeip": false,
           "store_rdrc": false,
           "rdrc_timeout": "7d"
-        },
+        }
     },
   "inbounds":
     [
@@ -54,7 +54,7 @@
         "address": ["172.31.0.1/30"],
         "auto_route": false,
         "auto_redirect": false
-      },
+      }
     ],
   "outbounds":
     [
@@ -71,14 +71,14 @@
         "interval": "3m",
         "tolerance": 150,
         "interrupt_exist_connections": true,
-        "outbounds": ["{all}"],
+        "outbounds": ["{all}"]
       },
       { "type": "direct", "tag": "🎯 全球直连" },
       {
         "type": "selector",
         "tag": "🐟 漏网之鱼",
         "interrupt_exist_connections": true,
-        "outbounds": ["🎯 全球直连", "🚀 节点选择"],
+        "outbounds": ["🎯 全球直连", "🚀 节点选择"]
       },
       {
         "type": "selector",
@@ -86,7 +86,7 @@
         "interrupt_exist_connections": true,
         "outbounds":
           ["🚀 节点选择", "🎈 自动选择", "🎯 全球直连", "🐟 漏网之鱼"]
-      },
+      }
     ],
   "route":
     {
@@ -97,7 +97,7 @@
           {
             "action": "route",
             "clash_mode": "direct",
-            "outbound": "🎯 全球直连",
+            "outbound": "🎯 全球直连"
           },
           { "action": "route", "clash_mode": "global", "outbound": "GLOBAL" },
           { "action": "reject", "protocol": "quic" },
@@ -234,7 +234,7 @@
             "url": "https://github.com/MetaCubeX/meta-rules-dat/raw/refs/heads/sing/geo/geosite/geolocation-!cn.srs",
             "format": "binary",
             "download_detour": "🚀 节点选择"
-          },
+          }
         ],
       "auto_detect_interface": true,
       "final": "🐟 漏网之鱼"
@@ -248,7 +248,7 @@
             "tag": "Remote-DNS",
             "address": "tcp://1.1.1.1:53",
             "detour": "🚀 节点选择"
-          },
+          }
         ],
       "rules":
         [
@@ -298,20 +298,20 @@
                 "doh.pub",
                 "dot.pub",
                 "doh.360.cn",
-                "dot.360.cn",
+                "dot.360.cn"
               ],
             "server": "Local-DNS"
           },
           {
             "action": "route",
             "rule_set": ["GeoSite-CN", "microsoft", "apple"],
-            "server": "Local-DNS",
+            "server": "Local-DNS"
           },
           {
             "action": "route",
             "rule_set": ["GeoLocation-!CN"],
             "server": "Remote-DNS"
-          },
+          }
         ],
       "independent_cache": true,
       "final": "Remote-DNS",
