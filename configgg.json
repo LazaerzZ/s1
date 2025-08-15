@@ -9,14 +9,12 @@
     "servers": [
       {
         "tag": "local",
-        "type": "local",
-        "detour": "🎯 全球直连"
+        "type": "local"
       },
       {
         "tag": "foreign",
         "type": "tls",
-        "server": "1.1.1.1",
-        "detour": "🚀 节点选择"
+        "server": "1.1.1.1"
       }
     ],
     "rules": [
