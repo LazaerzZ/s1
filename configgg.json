@@ -39,11 +39,9 @@
         "server": "foreign"
       }
     ],
+    "independent_cache": true,
     "final": "foreign",
-    "strategy": "ipv4_only",
-    "disable_cache": false,
-    "disable_expire": false,
-    "independent_cache": false
+    "strategy": "ipv4_only"
   },
   "inbounds": [
     {
@@ -77,7 +75,6 @@
     {
       "type": "selector",
       "tag": "🚀 节点选择",
-      "interrupt_exist_connections": true,
       "outbounds": ["🎈 自动选择", "{all}"]
     },
     {
@@ -86,20 +83,27 @@
       "url": "http://www.gstatic.com/generate_204",
       "interval": "3m",
       "tolerance": 150,
-      "interrupt_exist_connections": true,
       "outbounds": ["{all}"]
     },
     { "type": "direct", "tag": "🎯 全球直连" },
     {
       "type": "selector",
+      "tag": "🍎 苹果",
+      "outbounds": ["🎯 全球直连", "🚀 节点选择"]
+    },
+    {
+      "type": "selector",
+      "tag": "🪟 微软",
+      "outbounds": ["🎯 全球直连", "🚀 节点选择"]
+    },
+    {
+      "type": "selector",
       "tag": "🐟 漏网之鱼",
-      "interrupt_exist_connections": true,
       "outbounds": ["🎯 全球直连", "🚀 节点选择"]
     },
     {
       "type": "selector",
       "tag": "GLOBAL",
-      "interrupt_exist_connections": true,
       "outbounds": ["🚀 节点选择", "🎈 自动选择", "🎯 全球直连", "🐟 漏网之鱼"]
     }
   ],
@@ -131,7 +135,17 @@
       },
       {
         "action": "route",
-        "rule_set": ["GeoSite-CN", "microsoft", "apple"],
+        "rule_set": ["apple"],
+        "outbound": "🍎 苹果"
+      },
+      {
+        "action": "route",
+        "rule_set": ["microsoft"],
+        "outbound": "🪟 微软"
+      },
+      {
+        "action": "route",
+        "rule_set": ["GeoSite-CN"],
         "outbound": "🎯 全球直连"
       },
       {
@@ -249,4 +263,3 @@
     }
   }
 }
-
