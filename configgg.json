@@ -7,7 +7,7 @@
   },
   "experimental": {
     "clash_api": {
-      "external_controller": "192.168.1.1:20123",
+      "external_controller": "0.0.0.0:20123",
       "external_ui": "",
       "external_ui_download_url": "https://github.com/Zephyruso/zashboard/archive/refs/heads/gh-pages.zip",
       "external_ui_download_detour": "🚀 节点选择",
@@ -304,3 +304,4 @@
     "strategy": "ipv4_only"
   }
 }
+
