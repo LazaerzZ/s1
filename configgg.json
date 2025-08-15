@@ -15,7 +15,7 @@
       },
       {
         "tag": "foreign",
-        "type": "tcp",
+        "type": "tls",
         "server": "1.1.1.1",
         "detour": "🚀 节点选择"
       }
