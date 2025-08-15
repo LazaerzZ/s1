@@ -12,11 +12,7 @@
       "external_ui_download_url": "",
       "external_ui_download_detour": "🎯 全球直连",
       "secret": "e0e4cd7c2f14e9dfe03cc428d00608ccb845c892c731f7e6185af97c2733cc1c",
-      "default_mode": "rule",
-      "access_control_allow_origin": [
-        "*"
-      ],
-      "access_control_allow_private_network": false
+      "default_mode": "rule"
     },
     "cache_file": {
       "enabled": true,
