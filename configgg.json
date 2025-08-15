@@ -7,41 +7,36 @@
   },
   "dns": {
     "servers": [
-      { "tag": "Local-DNS", "type": "local", "detour": "🎯 全球直连" },
+      { "tag": "local", "type": "local" },
       {
-        "tag": "Remote-DNS",
+        "tag": "foreign",
         "type": "tcp",
-        "server": "1.1.1.1",
-        "detour": "🚀 节点选择"
+        "server": "1.1.1.1"
       }
     ],
     "rules": [
-      { "action": "route", "clash_mode": "direct", "server": "Local-DNS" },
-      { "action": "route", "clash_mode": "global", "server": "Remote-DNS" },
+      { "action": "route", "clash_mode": "direct", "server": "local" },
+      { "action": "route", "clash_mode": "global", "server": "foreign" },
       { "query_type": "HTTPS", "action": "reject" },
       {
-        "action": "route",
         "rule_set": ["direct_site"],
-        "server": "Local-DNS"
+        "server": "local"
       },
       {
-        "action": "route",
         "rule_set": ["proxy_site"],
-        "server": "Remote-DNS"
+        "server": "foreign"
       },
       {
-        "action": "route",
         "rule_set": ["GeoSite-CN", "microsoft", "apple"],
-        "server": "Local-DNS"
+        "server": "local"
       },
       {
-        "action": "route",
         "rule_set": ["GeoLocation-!CN"],
-        "server": "Remote-DNS"
+        "server": "foreign"
       }
     ],
     "independent_cache": true,
-    "final": "Remote-DNS",
+    "final": "foreign",
     "strategy": "ipv4_only"
   },
   "inbounds": [
@@ -227,7 +222,7 @@
       }
     ],
     "final": "🐟 漏网之鱼",
-    "default_domain_resolver": {"server": "Local-DNS"}
+    "default_domain_resolver": { "server": "local" }
   },
   "experimental": {
     "clash_api": {
