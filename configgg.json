@@ -23,7 +23,7 @@
     }
   },
   "inbounds": [
-     {
+    {
       "tag": "dns-in",
       "type": "direct",
       "listen": "::",
@@ -40,6 +40,14 @@
       "type": "tproxy",
       "listen": "::",
       "listen_port": 7891
+    },
+    {
+      "tag": "tun-in",
+      "type": "tun",
+      "interface_name": "momo",
+      "address": ["172.31.0.1/30"],
+      "auto_route": false,
+      "auto_redirect": false
     }
   ],
   "outbounds": [
@@ -47,10 +55,7 @@
       "type": "selector",
       "tag": "🚀 节点选择",
       "interrupt_exist_connections": true,
-      "outbounds": [
-        "🎈 自动选择",
-        "{all}"
-      ]
+      "outbounds": ["🎈 自动选择", "{all}"]
     },
     {
       "type": "urltest",
@@ -59,9 +64,7 @@
       "interval": "3m",
       "tolerance": 150,
       "interrupt_exist_connections": true,
-      "outbounds": [
-       "{all}"
-      ]
+      "outbounds": ["{all}"]
     },
     {
       "type": "direct",
@@ -71,34 +74,26 @@
       "type": "selector",
       "tag": "🐟 漏网之鱼",
       "interrupt_exist_connections": true,
-      "outbounds": [
-        "🎯 全球直连",
-        "🚀 节点选择"
-      ]
+      "outbounds": ["🎯 全球直连", "🚀 节点选择"]
     },
     {
       "type": "selector",
       "tag": "GLOBAL",
       "interrupt_exist_connections": true,
-      "outbounds": [
-        "🚀 节点选择",
-        "🎈 自动选择",
-        "🎯 全球直连",
-        "🐟 漏网之鱼"
-      ]
+      "outbounds": ["🚀 节点选择", "🎈 自动选择", "🎯 全球直连", "🐟 漏网之鱼"]
     }
   ],
   "route": {
     "rules": [
       {
         "action": "sniff",
-        "inbound": "tun-in"
+        "sniffer": ["http", "tls", "quic", "dns"]
       },
       {
         "action": "hijack-dns",
         "protocol": "dns"
       },
-      {"inbound": "dns-in", "action": "hijack-dns"},
+      { "inbound": "dns-in", "action": "hijack-dns" },
       {
         "action": "route",
         "clash_mode": "direct",
@@ -131,45 +126,60 @@
           "lazaer.top",
           "pushplus.plus",
           "smec-cn.com",
-          "toyaml.com"
+          "toyaml.com",
+          "dyndns.com",
+          "douyucdn.cn",
+          "douyucdn2.cn",
+          "location.services.mozilla.com",
+          "speedtest.net",
+          "ip.sb",
+          "steamcontent.com",
+          "dl.steam.clngaa.com",
+          "dl.steam.ksyna.com",
+          "st.dl.bscstorage.net",
+          "st.dl.eccdnx.com",
+          "st.dl.pinyuncloud.com",
+          "cdn.mileweb.cs.steampowered.com.8686c.com",
+          "cdn-ws.content.steamchina.com",
+          "cdn-qc.content.steamchina.com",
+          "cdn-ali.content.steamchina.com",
+          "epicgames-download1-1251447533.file.myqcloud.com",
+          "dns.alidns.com",
+          "doh.pub",
+          "dot.pub",
+          "doh.360.cn",
+          "dot.360.cn"
         ],
         "outbound": "🎯 全球直连"
       },
       {
         "action": "route",
-        "rule_set": [
-          "GeoSite-Private"
-        ],
+        "rule_set": ["GeoSite-Private"],
         "outbound": "🎯 全球直连"
       },
       {
         "action": "route",
-        "rule_set": [
-          "GeoSite-CN",
-          "microsoft",
-          "apple"
-        ],
+        "rule_set": ["GeoSite-CN", "microsoft", "apple"],
         "outbound": "🎯 全球直连"
       },
       {
         "action": "route",
-        "rule_set": [
-          "GeoIP-Private"
-        ],
+        "ip_cidr": ["193.122.118.169/32"],
         "outbound": "🎯 全球直连"
       },
       {
         "action": "route",
-        "rule_set": [
-          "GeoIP-CN"
-        ],
+        "rule_set": ["GeoIP-Private"],
         "outbound": "🎯 全球直连"
       },
       {
         "action": "route",
-        "rule_set": [
-          "GeoLocation-!CN"
-        ],
+        "rule_set": ["GeoIP-CN"],
+        "outbound": "🎯 全球直连"
+      },
+      {
+        "action": "route",
+        "rule_set": ["GeoLocation-!CN"],
         "outbound": "🚀 节点选择"
       }
     ],
@@ -265,18 +275,56 @@
       },
       {
         "action": "route",
-        "rule_set": [
-          "GeoSite-CN",
-          "microsoft",
-          "apple"
+        "domain_suffix": [
+          "aliyun.com",
+          "aliyuncs.com",
+          "xiaohongshu.com",
+          "amap.com",
+          "dxomark.cn",
+          "haozgz.com",
+          "jiebian.life",
+          "kovemoto.com",
+          "laf.run",
+          "microsoftonline.com",
+          "microsoft.com",
+          "nemo.show",
+          "lazaer.top",
+          "pushplus.plus",
+          "smec-cn.com",
+          "toyaml.com",
+          "dyndns.com",
+          "douyucdn.cn",
+          "douyucdn2.cn",
+          "location.services.mozilla.com",
+          "speedtest.net",
+          "ip.sb",
+          "steamcontent.com",
+          "dl.steam.clngaa.com",
+          "dl.steam.ksyna.com",
+          "st.dl.bscstorage.net",
+          "st.dl.eccdnx.com",
+          "st.dl.pinyuncloud.com",
+          "cdn.mileweb.cs.steampowered.com.8686c.com",
+          "cdn-ws.content.steamchina.com",
+          "cdn-qc.content.steamchina.com",
+          "cdn-ali.content.steamchina.com",
+          "epicgames-download1-1251447533.file.myqcloud.com",
+          "dns.alidns.com",
+          "doh.pub",
+          "dot.pub",
+          "doh.360.cn",
+          "dot.360.cn"
         ],
         "server": "Local-DNS"
       },
       {
         "action": "route",
-        "rule_set": [
-          "GeoLocation-!CN"
-        ],
+        "rule_set": ["GeoSite-CN", "microsoft", "apple"],
+        "server": "Local-DNS"
+      },
+      {
+        "action": "route",
+        "rule_set": ["GeoLocation-!CN"],
         "server": "Remote-DNS"
       }
     ],
