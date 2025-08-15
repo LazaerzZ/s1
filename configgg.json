@@ -9,7 +9,8 @@
     "servers": [
       {
         "tag": "local",
-        "type": "local"
+        "type": "udp",
+        "server": "211.138.180.2"
       },
       {
         "tag": "foreign",
