@@ -2,12 +2,11 @@
   "log": {
     "disabled": false,
     "level": "warn",
-    "output": "",
     "timestamp": true
   },
   "experimental": {
     "clash_api": {
-      "external_controller": "0.0.0.0:20123",
+      "external_controller": "192.168.1.1:20123",
       "external_ui": "/etc/momo/run/ui",
       "external_ui_download_url": "https://github.com/haishanh/yacd/archive/gh-pages.zip",
       "external_ui_download_detour": "🚀 节点选择",
@@ -27,25 +26,25 @@
      {
       "tag": "dns-in",
       "type": "direct",
-      "listen": "::",
+      "listen": "0.0.0.0",
       "listen_port": 1053
     },
     {
       "tag": "socks-in",
       "type": "socks",
-      "listen": "::",
+      "listen": "0.0.0.0",
       "listen_port": 1080
     },
     {
       "tag": "redirect-in",
       "type": "redirect",
-      "listen": "::",
+      "listen": "0.0.0.0",
       "listen_port": 7890
     },
     {
       "tag": "tproxy-in",
       "type": "tproxy",
-      "listen": "::",
+      "listen": "0.0.0.0",
       "listen_port": 7891
     },
     {
