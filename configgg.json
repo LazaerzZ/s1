@@ -89,10 +89,6 @@
         "action": "sniff",
         "sniffer": ["http", "tls", "quic", "dns"]
       },
-      {
-        "action": "hijack-dns",
-        "protocol": "dns"
-      },
       { "inbound": "dns-in", "action": "hijack-dns" },
       {
         "action": "route",
@@ -111,6 +107,7 @@
       {
         "action": "route",
         "domain_suffix": [
+          "apple.com",
           "aliyun.com",
           "aliyuncs.com",
           "xiaohongshu.com",
