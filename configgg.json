@@ -104,6 +104,7 @@
         "action": "reject",
         "protocol": "quic"
       },
+      { "ip_is_private": true, "outbound": "🎯 全球直连" },
       {
         "action": "route",
         "domain_suffix": [
@@ -239,7 +240,7 @@
       }
     ],
     "auto_detect_interface": true,
-    "final": "🚀 节点选择"
+    "final": "🐟 漏网之鱼"
   },
   "dns": {
     "servers": [
@@ -269,6 +270,10 @@
         "action": "route",
         "clash_mode": "global",
         "server": "Remote-DNS"
+      },
+      {
+        "query_type": "HTTPS",
+        "action": "reject"
       },
       {
         "action": "route",
@@ -326,9 +331,7 @@
         "server": "Remote-DNS"
       }
     ],
-    "disable_cache": false,
-    "disable_expire": false,
-    "independent_cache": false,
+    "independent_cache": true,
     "final": "Remote-DNS",
     "strategy": "ipv4_only"
   }
