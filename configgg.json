@@ -91,7 +91,7 @@
         "outbound": "🎯 全球直连"
       },
       { "action": "route", "clash_mode": "global", "outbound": "GLOBAL" },
-      { "action": "reject", "network": "udp", "port": "443" },
+      { "action": "reject", "protocol ": "quic" },
       { "ip_is_private": true, "outbound": "🎯 全球直连" },
       {
         "action": "route",
