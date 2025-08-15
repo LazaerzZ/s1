@@ -9,7 +9,7 @@
     "clash_api": {
       "external_controller": "0.0.0.0:20123",
       "external_ui": "/etc/momo/run/ui",
-      "external_ui_download_url": "https://github.com/Zephyruso/zashboard/archive/refs/heads/gh-pages.zip",
+      "external_ui_download_url": "https://github.com/haishanh/yacd/archive/gh-pages.zip",
       "external_ui_download_detour": "🚀 节点选择",
       "secret": "e0e4cd7c2f14e9dfe03cc428d00608ccb845c892c731f7e6185af97c2733cc1c",
       "default_mode": "rule"
