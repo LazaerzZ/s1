@@ -27,7 +27,7 @@
       {
         "action": "route",
         "rule_set": ["proxy_site"],
-        "outbound": "Remote-DNS"
+        "server": "Remote-DNS"
       },
       {
         "action": "route",
