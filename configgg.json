@@ -91,7 +91,6 @@
         "outbound": "🎯 全球直连"
       },
       { "action": "route", "clash_mode": "global", "outbound": "GLOBAL" },
-      { "action": "reject", "protocol ": "quic" },
       { "ip_is_private": true, "outbound": "🎯 全球直连" },
       {
         "action": "route",
