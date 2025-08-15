@@ -3,6 +3,7 @@
   "rules": [
     {
       "domain_suffix": [
+        "apple.com",
         "microsoftonline.com",
         "microsoft.com",
         "windows.com",
