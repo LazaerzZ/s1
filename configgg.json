@@ -5,23 +5,44 @@
     "output": "box.log",
     "timestamp": true
   },
-  "experimental": {
-    "clash_api": {
-      "external_controller": "192.168.1.1:20123",
-      "external_ui": "/etc/momo/run/ui",
-      "external_ui_download_url": "https://github.com/MetaCubeX/Yacd-meta/archive/gh-pages.zip",
-      "external_ui_download_detour": "🚀 节点选择",
-      "secret": "lazaer2",
-      "default_mode": "rule"
-    },
-    "cache_file": {
-      "enabled": true,
-      "path": "cache.db",
-      "cache_id": "",
-      "store_fakeip": false,
-      "store_rdrc": false,
-      "rdrc_timeout": "7d"
-    }
+  "dns": {
+    "servers": [
+      { "tag": "Local-DNS", "type": "local", "detour": "🎯 全球直连" },
+      {
+        "tag": "Remote-DNS",
+        "type": "tcp",
+        "server": "1.1.1.1",
+        "detour": "🚀 节点选择"
+      }
+    ],
+    "rules": [
+      { "action": "route", "clash_mode": "direct", "server": "Local-DNS" },
+      { "action": "route", "clash_mode": "global", "server": "Remote-DNS" },
+      { "query_type": "HTTPS", "action": "reject" },
+      {
+        "action": "route",
+        "rule_set": ["direct_site"],
+        "server": "Local-DNS"
+      },
+      {
+        "action": "route",
+        "rule_set": ["proxy_site"],
+        "outbound": "Remote-DNS"
+      },
+      {
+        "action": "route",
+        "rule_set": ["GeoSite-CN", "microsoft", "apple"],
+        "server": "Local-DNS"
+      },
+      {
+        "action": "route",
+        "rule_set": ["GeoLocation-!CN"],
+        "server": "Remote-DNS"
+      }
+    ],
+    "independent_cache": true,
+    "final": "Remote-DNS",
+    "strategy": "ipv4_only"
   },
   "inbounds": [
     {
@@ -94,41 +115,12 @@
       { "ip_is_private": true, "outbound": "🎯 全球直连" },
       {
         "action": "route",
-        "domain_suffix": [
-          "microsoftonline.com",
-          "microsoft.com",
-          "windows.com",
-          "lazaer.top",
-          "smec-cn.com",
-          "toyaml.com",
-          "dyndns.com",
-          "douyucdn.cn",
-          "douyucdn2.cn",
-          "location.services.mozilla.com",
-          "speedtest.net",
-          "ip.sb",
-          "steamcontent.com",
-          "dl.steam.clngaa.com",
-          "dl.steam.ksyna.com",
-          "st.dl.bscstorage.net",
-          "st.dl.eccdnx.com",
-          "st.dl.pinyuncloud.com",
-          "cdn.mileweb.cs.steampowered.com.8686c.com",
-          "cdn-ws.content.steamchina.com",
-          "cdn-qc.content.steamchina.com",
-          "cdn-ali.content.steamchina.com",
-          "epicgames-download1-1251447533.file.myqcloud.com",
-          "dns.alidns.com",
-          "doh.pub",
-          "dot.pub",
-          "doh.360.cn",
-          "dot.360.cn"
-        ],
+        "rule_set": ["direct_site"],
         "outbound": "🎯 全球直连"
       },
       {
         "action": "route",
-        "domain_suffix": ["j03og.app"],
+        "rule_set": ["proxy_site"],
         "outbound": "🚀 节点选择"
       },
       {
@@ -143,7 +135,7 @@
       },
       {
         "action": "route",
-        "ip_cidr": ["193.122.118.169/32"],
+        "rule_set": ["direct_ip"],
         "outbound": "🎯 全球直连"
       },
       {
@@ -163,6 +155,27 @@
       }
     ],
     "rule_set": [
+      {
+        "tag": "direct_site",
+        "type": "remote",
+        "url": "https://raw.githubusercontent.com/LazaerzZ/s1/refs/heads/master/direct_site.json",
+        "format": "source",
+        "download_detour": "🚀 节点选择"
+      },
+      {
+        "tag": "proxy_site",
+        "type": "remote",
+        "url": "https://raw.githubusercontent.com/LazaerzZ/s1/refs/heads/master/proxy_site.json",
+        "format": "source",
+        "download_detour": "🚀 节点选择"
+      },
+      {
+        "tag": "direct_ip",
+        "type": "remote",
+        "url": "https://raw.githubusercontent.com/LazaerzZ/s1/refs/heads/master/direct_ip.json",
+        "format": "source",
+        "download_detour": "🚀 节点选择"
+      },
       {
         "tag": "microsoft",
         "type": "remote",
@@ -213,70 +226,25 @@
         "download_detour": "🚀 节点选择"
       }
     ],
-    "auto_detect_interface": true,
-    "final": "🐟 漏网之鱼"
+    "final": "🐟 漏网之鱼",
+    "default_domain_resolver": {"server": "Local-DNS"}
   },
-  "dns": {
-    "servers": [
-      { "tag": "Local-DNS", "address": "local", "detour": "🎯 全球直连" },
-      {
-        "tag": "Remote-DNS",
-        "address": "tcp://1.1.1.1:53",
-        "detour": "🚀 节点选择"
-      }
-    ],
-    "rules": [
-      { "action": "route", "server": "Local-DNS", "outbound": "any" },
-      { "action": "route", "clash_mode": "direct", "server": "Local-DNS" },
-      { "action": "route", "clash_mode": "global", "server": "Remote-DNS" },
-      { "query_type": "HTTPS", "action": "reject" },
-      {
-        "action": "route",
-        "domain_suffix": [
-          "microsoftonline.com",
-          "microsoft.com",
-          "windows.com",
-          "lazaer.top",
-          "smec-cn.com",
-          "toyaml.com",
-          "dyndns.com",
-          "douyucdn.cn",
-          "douyucdn2.cn",
-          "location.services.mozilla.com",
-          "speedtest.net",
-          "ip.sb",
-          "steamcontent.com",
-          "dl.steam.clngaa.com",
-          "dl.steam.ksyna.com",
-          "st.dl.bscstorage.net",
-          "st.dl.eccdnx.com",
-          "st.dl.pinyuncloud.com",
-          "cdn.mileweb.cs.steampowered.com.8686c.com",
-          "cdn-ws.content.steamchina.com",
-          "cdn-qc.content.steamchina.com",
-          "cdn-ali.content.steamchina.com",
-          "epicgames-download1-1251447533.file.myqcloud.com",
-          "dns.alidns.com",
-          "doh.pub",
-          "dot.pub",
-          "doh.360.cn",
-          "dot.360.cn"
-        ],
-        "server": "Local-DNS"
-      },
-      {
-        "action": "route",
-        "rule_set": ["GeoSite-CN", "microsoft", "apple"],
-        "server": "Local-DNS"
-      },
-      {
-        "action": "route",
-        "rule_set": ["GeoLocation-!CN"],
-        "server": "Remote-DNS"
-      }
-    ],
-    "independent_cache": true,
-    "final": "Remote-DNS",
-    "strategy": "ipv4_only"
+  "experimental": {
+    "clash_api": {
+      "external_controller": "192.168.1.1:20123",
+      "external_ui": "/etc/momo/run/ui",
+      "external_ui_download_url": "https://github.com/MetaCubeX/Yacd-meta/archive/gh-pages.zip",
+      "external_ui_download_detour": "🚀 节点选择",
+      "secret": "lazaer2",
+      "default_mode": "rule"
+    },
+    "cache_file": {
+      "enabled": true,
+      "path": "cache.db",
+      "cache_id": "",
+      "store_fakeip": false,
+      "store_rdrc": false,
+      "rdrc_timeout": "7d"
+    }
   }
 }
