@@ -39,9 +39,11 @@
         "server": "foreign"
       }
     ],
-    "independent_cache": true,
     "final": "foreign",
-    "strategy": "ipv4_only"
+    "strategy": "ipv4_only",
+    "disable_cache": false,
+    "disable_expire": false,
+    "independent_cache": false
   },
   "inbounds": [
     {
@@ -247,3 +249,4 @@
     }
   }
 }
+
