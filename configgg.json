@@ -182,7 +182,7 @@
             "action": "route",
             "rule_set": ["GeoLocation-!CN"],
             "outbound": "🚀 节点选择",
-          },
+          }
         ],
       "rule_set":
         [
