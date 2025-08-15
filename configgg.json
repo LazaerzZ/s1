@@ -1,0 +1,289 @@
+{
+  "log": {
+    "disabled": false,
+    "level": "info",
+    "output": "",
+    "timestamp": true
+  },
+  "experimental": {
+    "clash_api": {
+      "external_controller": "192.168.1.1:20123",
+      "external_ui": "",
+      "external_ui_download_url": "",
+      "external_ui_download_detour": "🎯 全球直连",
+      "secret": "e0e4cd7c2f14e9dfe03cc428d00608ccb845c892c731f7e6185af97c2733cc1c",
+      "default_mode": "rule",
+      "access_control_allow_origin": [
+        "*"
+      ],
+      "access_control_allow_private_network": false
+    },
+    "cache_file": {
+      "enabled": true,
+      "path": "cache.db",
+      "cache_id": "",
+      "store_fakeip": false,
+      "store_rdrc": false,
+      "rdrc_timeout": "7d"
+    }
+  },
+  "inbounds": [
+    {
+      "type": "tun",
+      "tag": "tun-in",
+      "interface_name": "sing-box",
+      "address": [
+        "172.18.0.1/30"
+      ],
+      "mtu": 9000,
+      "auto_route": true,
+      "strict_route": true,
+      "endpoint_independent_nat": false,
+      "stack": "mixed"
+    }
+  ],
+  "outbounds": [
+    {
+      "type": "selector",
+      "tag": "🚀 节点选择",
+      "interrupt_exist_connections": true,
+      "outbounds": [
+        "🎈 自动选择",
+        "{all}"
+      ]
+    },
+    {
+      "type": "urltest",
+      "tag": "🎈 自动选择",
+      "url": "https://www.gstatic.com/generate_204",
+      "interval": "3m",
+      "tolerance": 150,
+      "interrupt_exist_connections": true,
+      "outbounds": [
+       "{all}"
+      ]
+    },
+    {
+      "type": "direct",
+      "tag": "🎯 全球直连"
+    },
+    {
+      "type": "selector",
+      "tag": "🐟 漏网之鱼",
+      "interrupt_exist_connections": true,
+      "outbounds": [
+        "🎯 全球直连",
+        "🚀 节点选择"
+      ]
+    },
+    {
+      "type": "selector",
+      "tag": "GLOBAL",
+      "interrupt_exist_connections": true,
+      "outbounds": [
+        "🚀 节点选择",
+        "🎈 自动选择",
+        "🎯 全球直连",
+        "🐟 漏网之鱼"
+      ]
+    }
+  ],
+  "route": {
+    "rules": [
+      {
+        "action": "sniff",
+        "inbound": "tun-in"
+      },
+      {
+        "action": "hijack-dns",
+        "protocol": "dns"
+      },
+      {"inbound": "dns-in", "action": "hijack-dns"},
+      {
+        "action": "route",
+        "clash_mode": "direct",
+        "outbound": "🎯 全球直连"
+      },
+      {
+        "action": "route",
+        "clash_mode": "global",
+        "outbound": "GLOBAL"
+      },
+      {
+        "action": "reject",
+        "protocol": "quic"
+      },
+      {
+        "action": "route",
+        "domain_suffix": [
+          "aliyun.com",
+          "aliyuncs.com",
+          "xiaohongshu.com",
+          "amap.com",
+          "dxomark.cn",
+          "haozgz.com",
+          "jiebian.life",
+          "kovemoto.com",
+          "laf.run",
+          "microsoftonline.com",
+          "microsoft.com",
+          "nemo.show",
+          "lazaer.top",
+          "pushplus.plus",
+          "smec-cn.com",
+          "toyaml.com"
+        ],
+        "outbound": "🎯 全球直连"
+      },
+      {
+        "action": "route",
+        "rule_set": [
+          "GeoSite-Private"
+        ],
+        "outbound": "🎯 全球直连"
+      },
+      {
+        "action": "route",
+        "rule_set": [
+          "GeoSite-CN",
+          "microsoft",
+          "apple"
+        ],
+        "outbound": "🎯 全球直连"
+      },
+      {
+        "action": "route",
+        "rule_set": [
+          "GeoIP-Private"
+        ],
+        "outbound": "🎯 全球直连"
+      },
+      {
+        "action": "route",
+        "rule_set": [
+          "GeoIP-CN"
+        ],
+        "outbound": "🎯 全球直连"
+      },
+      {
+        "action": "route",
+        "rule_set": [
+          "GeoLocation-!CN"
+        ],
+        "outbound": "🚀 节点选择"
+      }
+    ],
+    "rule_set": [
+      {
+        "tag": "microsoft",
+        "type": "remote",
+        "url": "https://github.com/MetaCubeX/meta-rules-dat/raw/refs/heads/sing/geo/geosite/microsoft@cn.srs",
+        "format": "binary",
+        "download_detour": "🚀 节点选择"
+      },
+      {
+        "tag": "apple",
+        "type": "remote",
+        "url": "https://github.com/MetaCubeX/meta-rules-dat/raw/refs/heads/sing/geo/geosite/apple@cn.srs",
+        "format": "binary",
+        "download_detour": "🚀 节点选择"
+      },
+      {
+        "tag": "Category-Ads",
+        "type": "remote",
+        "url": "https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@sing/geo/geosite/category-ads-all.srs",
+        "format": "binary",
+        "download_detour": "🎯 全球直连"
+      },
+      {
+        "tag": "GeoIP-Private",
+        "type": "remote",
+        "url": "https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@sing/geo/geoip/private.srs",
+        "format": "binary",
+        "download_detour": "🎯 全球直连"
+      },
+      {
+        "tag": "GeoSite-Private",
+        "type": "remote",
+        "url": "https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@sing/geo/geosite/private.srs",
+        "format": "binary",
+        "download_detour": "🎯 全球直连"
+      },
+      {
+        "tag": "GeoIP-CN",
+        "type": "remote",
+        "url": "https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@sing/geo/geoip/cn.srs",
+        "format": "binary",
+        "download_detour": "🎯 全球直连"
+      },
+      {
+        "tag": "GeoSite-CN",
+        "type": "remote",
+        "url": "https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@sing/geo/geosite/cn.srs",
+        "format": "binary",
+        "download_detour": "🎯 全球直连"
+      },
+      {
+        "tag": "GeoLocation-!CN",
+        "type": "remote",
+        "url": "https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@sing/geo/geosite/geolocation-!cn.srs",
+        "format": "binary",
+        "download_detour": "🎯 全球直连"
+      }
+    ],
+    "auto_detect_interface": true,
+    "final": "🚀 节点选择"
+  },
+  "dns": {
+    "servers": [
+      {
+        "tag": "Local-DNS",
+        "address": "local",
+        "detour": "🎯 全球直连"
+      },
+      {
+        "tag": "Remote-DNS",
+        "address": "tcp://1.1.1.1:53",
+        "detour": "🚀 节点选择"
+      }
+    ],
+    "rules": [
+      {
+        "action": "route",
+        "server": "Local-DNS",
+        "outbound": "any"
+      },
+      {
+        "action": "route",
+        "clash_mode": "direct",
+        "server": "Local-DNS"
+      },
+      {
+        "action": "route",
+        "clash_mode": "global",
+        "server": "Remote-DNS"
+      },
+      {
+        "action": "route",
+        "rule_set": [
+          "GeoSite-CN",
+          "microsoft",
+          "apple"
+        ],
+        "server": "Local-DNS"
+      },
+      {
+        "action": "route",
+        "rule_set": [
+          "GeoLocation-!CN"
+        ],
+        "server": "Remote-DNS"
+      }
+    ],
+    "disable_cache": false,
+    "disable_expire": false,
+    "independent_cache": false,
+    "final": "Remote-DNS",
+    "strategy": "ipv4_only"
+  }
+}
