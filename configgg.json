@@ -9,7 +9,7 @@
     "servers": [
       {
         "tag": "local",
-        "type": "udp",
+        "type": "local",
         "detour": "🎯 全球直连"
       },
       {
