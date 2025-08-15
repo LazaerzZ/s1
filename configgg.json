@@ -178,6 +178,13 @@
       },
       {
         "action": "route",
+        "domain_suffix": [
+          "j03og.app"
+        ],
+        "outbound": "🚀 节点选择"
+      },
+      {
+        "action": "route",
         "rule_set": ["GeoLocation-!CN"],
         "outbound": "🚀 节点选择"
       }
