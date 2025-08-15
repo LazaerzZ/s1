@@ -273,6 +273,7 @@
       {
         "action": "route",
         "domain_suffix": [
+          "apple.com",
           "aliyun.com",
           "aliyuncs.com",
           "xiaohongshu.com",
