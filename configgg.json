@@ -9,8 +9,7 @@
     "servers": [
       {
         "tag": "local",
-        "type": "local",
-        "detour":"🎯 全球直连"
+        "type": "local"
       },
       {
         "tag": "foreign",
@@ -264,6 +263,7 @@
     }
   }
 }
+
 
 
 
