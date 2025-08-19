@@ -39,7 +39,7 @@
         "server": "foreign"
       }
     ],
-    "independent_cache": true,
+    "independent_cache": false,
     "final": "foreign",
     "strategy": "ipv4_only"
   },
@@ -82,7 +82,7 @@
       "tag": "🎈 自动选择",
       "url": "http://www.gstatic.com/generate_204",
       "interval": "3m",
-      "tolerance": 150,
+      "tolerance": 100,
       "outbounds": ["{all}"]
     },
     { "type": "direct", "tag": "🎯 全球直连" },
@@ -263,3 +263,4 @@
     }
   }
 }
+
