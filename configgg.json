@@ -31,7 +31,7 @@
         "server": "foreign"
       },
       {
-        "rule_set": ["GeoSite-CN", "microsoft", "apple"],
+        "rule_set": ["GeoSite-CN", "microsoft", "apple_site"],
         "server": "local"
       },
       {
@@ -135,7 +135,7 @@
       },
       {
         "action": "route",
-        "rule_set": ["apple"],
+        "rule_set": ["apple_site"],
         "outbound": "🍎 苹果"
       },
       {
@@ -152,6 +152,11 @@
         "action": "route",
         "rule_set": ["direct_ip"],
         "outbound": "🎯 全球直连"
+      },
+      {
+        "action": "route",
+        "rule_set": ["apple_ip"],
+        "outbound": "🍎 苹果"
       },
       {
         "action": "route",
@@ -199,9 +204,16 @@
         "download_detour": "🚀 节点选择"
       },
       {
-        "tag": "apple",
+        "tag": "apple_site",
         "type": "remote",
         "url": "https://github.com/MetaCubeX/meta-rules-dat/raw/refs/heads/sing/geo/geosite/apple.srs",
+        "format": "binary",
+        "download_detour": "🚀 节点选择"
+      },
+      {
+        "tag": "apple_ip",
+        "type": "remote",
+        "url": "https://github.com/MetaCubeX/meta-rules-dat/raw/refs/heads/sing/geo-lite/geoip/apple.srs",
         "format": "binary",
         "download_detour": "🚀 节点选择"
       },
@@ -263,7 +275,6 @@
     }
   }
 }
-
 
 
 
