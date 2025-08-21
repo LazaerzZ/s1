@@ -1,7 +1,7 @@
 {
   "log": {
     "disabled": false,
-    "level": "warn",
+    "level": "info",
     "output": "box.log",
     "timestamp": true
   },
@@ -67,8 +67,8 @@
       "type": "tun",
       "interface_name": "momo",
       "address": ["172.31.0.1/30"],
-      "auto_route": true,
-      "auto_redirect": true
+      "auto_route": false,
+      "auto_redirect": false
     }
   ],
   "outbounds": [
@@ -275,6 +275,7 @@
     }
   }
 }
+
 
 
 
