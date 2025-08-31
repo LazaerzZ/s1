@@ -2,7 +2,10 @@
   "version": 3,
   "rules": [
     {
-      "domain_suffix": ["j03og.app"]
+      "domain_suffix": [
+        "j03og.app",
+        "ymawv.la"
+      ]
     }
   ]
 }
