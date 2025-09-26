@@ -84,7 +84,7 @@
       "type": "selector",
       "tag": "🚀 节点选择",
       "outbounds": [
-        "🎈 自动选择","{{all}}"]
+        "🎈 自动选择","{all}"]
     },
     {
       "type": "urltest",
@@ -92,7 +92,7 @@
       "url": "http://www.gstatic.com/generate_204",
       "interval": "3m",
       "tolerance": 100,
-      "outbounds": ["{{all}}"]
+      "outbounds": ["{all}"]
     },
     {
       "type": "direct",
