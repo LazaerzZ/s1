@@ -1,0 +1,284 @@
+{
+  "log": {
+    "disabled": false,
+    "level": "warn",
+    "output": "box.log",
+    "timestamp": true
+  },
+  "dns": {
+    "servers": [
+      {
+        "tag": "local",
+        "type": "udp",
+        "server": "211.138.180.2"
+      },
+      {
+        "tag": "foreign",
+        "type": "tls",
+        "server": "1.1.1.1",
+        "detour":"🚀 节点选择"
+      }
+    ],
+    "rules": [
+      { "action": "route", "clash_mode": "direct", "server": "local" },
+      { "action": "route", "clash_mode": "global", "server": "foreign" },
+      { "query_type": "HTTPS", "action": "reject" },
+      {
+        "rule_set": ["direct_site"],
+        "server": "local"
+      },
+      {
+        "rule_set": ["proxy_site"],
+        "server": "foreign"
+      },
+      {
+        "rule_set": ["GeoSite-CN", "microsoft", "apple_site"],
+        "server": "local"
+      },
+      {
+        "rule_set": ["GeoLocation-!CN"],
+        "server": "foreign"
+      }
+    ],
+    "disable_cache": true,
+    "independent_cache": false,
+    "final": "foreign",
+    "strategy": "ipv4_only"
+  },
+  "inbounds": [
+    {
+      "tag": "dns-in",
+      "type": "direct",
+      "listen": "::",
+      "listen_port": 1053
+    },
+    {
+      "tag": "redirect-in",
+      "type": "redirect",
+      "listen": "::",
+      "listen_port": 7890
+    },
+    {
+      "tag": "tproxy-in",
+      "type": "tproxy",
+      "listen": "::",
+      "listen_port": 7891
+    },
+    {
+      "tag": "tun-in",
+      "type": "tun",
+      "interface_name": "momo",
+      "address": ["172.31.0.1/30"],
+      "auto_route": false,
+      "auto_redirect": false
+    }
+  ],
+  "outbounds": [
+    {
+      "type": "selector",
+      "tag": "🚀 节点选择",
+      "outbounds": ["🎈 自动选择", "{all}"]
+    },
+    {
+      "type": "urltest",
+      "tag": "🎈 自动选择",
+      "url": "http://www.gstatic.com/generate_204",
+      "interval": "3m",
+      "tolerance": 100,
+      "outbounds": ["{all}"]
+    },
+    { "type": "direct", "tag": "🎯 全球直连" },
+    {
+      "type": "selector",
+      "tag": "🍎 苹果",
+      "outbounds": ["🎯 全球直连", "🚀 节点选择"]
+    },
+    {
+      "type": "selector",
+      "tag": "🪟 微软",
+      "outbounds": ["🎯 全球直连", "🚀 节点选择"]
+    },
+    {
+      "type": "selector",
+      "tag": "🐟 漏网之鱼",
+      "outbounds": ["🎯 全球直连", "🚀 节点选择"]
+    },
+    {
+      "type": "selector",
+      "tag": "GLOBAL",
+      "outbounds": ["🚀 节点选择", "🎈 自动选择", "🎯 全球直连", "🐟 漏网之鱼"]
+    }
+  ],
+  "route": {
+    "rules": [
+      { "action": "sniff", "sniffer": ["http", "tls", "quic", "dns"] },
+      { "inbound": "dns-in", "action": "hijack-dns" },
+      {
+        "action": "route",
+        "clash_mode": "direct",
+        "outbound": "🎯 全球直连"
+      },
+      { "action": "route", "clash_mode": "global", "outbound": "GLOBAL" },
+      { "ip_is_private": true, "outbound": "🎯 全球直连" },
+      {
+        "action": "route",
+        "rule_set": ["direct_site"],
+        "outbound": "🎯 全球直连"
+      },
+      {
+        "action": "route",
+        "rule_set": ["proxy_site"],
+        "outbound": "🚀 节点选择"
+      },
+      {
+        "action": "route",
+        "rule_set": ["GeoSite-Private"],
+        "outbound": "🎯 全球直连"
+      },
+      {
+        "action": "route",
+        "rule_set": ["apple_site"],
+        "outbound": "🍎 苹果"
+      },
+      {
+        "action": "route",
+        "rule_set": ["microsoft"],
+        "outbound": "🪟 微软"
+      },
+      {
+        "action": "route",
+        "rule_set": ["GeoSite-CN"],
+        "outbound": "🎯 全球直连"
+      },
+      {
+        "action": "route",
+        "rule_set": ["direct_ip"],
+        "outbound": "🎯 全球直连"
+      },
+      {
+        "action": "route",
+        "rule_set": ["apple_ip"],
+        "outbound": "🍎 苹果"
+      },
+      {
+        "action": "route",
+        "rule_set": ["GeoIP-Private"],
+        "outbound": "🎯 全球直连"
+      },
+      {
+        "action": "route",
+        "rule_set": ["GeoIP-CN"],
+        "outbound": "🎯 全球直连"
+      },
+      {
+        "action": "route",
+        "rule_set": ["GeoLocation-!CN"],
+        "outbound": "🚀 节点选择"
+      }
+    ],
+    "rule_set": [
+      {
+        "tag": "direct_site",
+        "type": "remote",
+        "url": "https://raw.githubusercontent.com/LazaerzZ/s1/refs/heads/master/direct_site.json",
+        "format": "source",
+        "download_detour": "🚀 节点选择"
+      },
+      {
+        "tag": "proxy_site",
+        "type": "remote",
+        "url": "https://raw.githubusercontent.com/LazaerzZ/s1/refs/heads/master/proxy_site.json",
+        "format": "source",
+        "download_detour": "🚀 节点选择"
+      },
+      {
+        "tag": "direct_ip",
+        "type": "remote",
+        "url": "https://raw.githubusercontent.com/LazaerzZ/s1/refs/heads/master/direct_ip.json",
+        "format": "source",
+        "download_detour": "🚀 节点选择"
+      },
+      {
+        "tag": "microsoft",
+        "type": "remote",
+        "url": "https://github.com/MetaCubeX/meta-rules-dat/raw/refs/heads/sing/geo/geosite/microsoft@cn.srs",
+        "format": "binary",
+        "download_detour": "🚀 节点选择"
+      },
+      {
+        "tag": "apple_site",
+        "type": "remote",
+        "url": "https://github.com/MetaCubeX/meta-rules-dat/raw/refs/heads/sing/geo/geosite/apple.srs",
+        "format": "binary",
+        "download_detour": "🚀 节点选择"
+      },
+      {
+        "tag": "apple_ip",
+        "type": "remote",
+        "url": "https://github.com/MetaCubeX/meta-rules-dat/raw/refs/heads/sing/geo-lite/geoip/apple.srs",
+        "format": "binary",
+        "download_detour": "🚀 节点选择"
+      },
+      {
+        "tag": "GeoIP-Private",
+        "type": "remote",
+        "url": "https://github.com/MetaCubeX/meta-rules-dat/raw/refs/heads/sing/geo/geoip/private.srs",
+        "format": "binary",
+        "download_detour": "🚀 节点选择"
+      },
+      {
+        "tag": "GeoSite-Private",
+        "type": "remote",
+        "url": "https://github.com/MetaCubeX/meta-rules-dat/raw/refs/heads/sing/geo/geosite/private.srs",
+        "format": "binary",
+        "download_detour": "🚀 节点选择"
+      },
+      {
+        "tag": "GeoIP-CN",
+        "type": "remote",
+        "url": "https://github.com/MetaCubeX/meta-rules-dat/raw/refs/heads/sing/geo/geoip/cn.srs",
+        "format": "binary",
+        "download_detour": "🚀 节点选择"
+      },
+      {
+        "tag": "GeoSite-CN",
+        "type": "remote",
+        "url": "https://github.com/MetaCubeX/meta-rules-dat/raw/refs/heads/sing/geo/geosite/cn.srs",
+        "format": "binary",
+        "download_detour": "🚀 节点选择"
+      },
+      {
+        "tag": "GeoLocation-!CN",
+        "type": "remote",
+        "url": "https://github.com/MetaCubeX/meta-rules-dat/raw/refs/heads/sing/geo/geosite/geolocation-!cn.srs",
+        "format": "binary",
+        "download_detour": "🚀 节点选择"
+      }
+    ],
+    "final": "🐟 漏网之鱼",
+    "default_domain_resolver": { "server": "local" }
+  },
+  "experimental": {
+    "clash_api": {
+      "external_controller": "0.0.0.0:20123",
+      "external_ui": "/etc/sing-box/ui",
+      "external_ui_download_url": "https://github.com/MetaCubeX/Yacd-meta/archive/gh-pages.zip",
+      "external_ui_download_detour": "🚀 节点选择",
+      "secret": "lazaer2",
+      "default_mode": "rule"
+    },
+    "cache_file": {
+      "enabled": true,
+      "path": "cache.db",
+      "cache_id": "",
+      "store_fakeip": false,
+      "store_rdrc": false,
+      "rdrc_timeout": "7d"
+    }
+  }
+}
+
+
+
+
+
